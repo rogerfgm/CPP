@@ -1,0 +1,20 @@
+1.環境変数LANGを設定　（コンソールが文字バケる）
+C
+もしくは日本語を表示したければ以下（あまりおすすめではない）
+ja_JP.CP932
+
+2.Cygwin の次のパッケージをインストール済みであること． 
+Devel/gcc-core 
+Devel/gcc-g++ 
+Devel/make
+
+
+
+3.Cygwin の bin ディレクトリ ( C:\cygwin\bin のようなディレクトリがあるはず ) を，
+Windows の環境変数 PATH に含めていること． 
+
+
+
+-----------------------------------
+以下はいらないっぽい
+4.C:\cygwin\bin\cygwin1.dll を C:\Windows\System32 にコピー
