@@ -70,7 +70,20 @@ public:
 
 		int chi = n - egg;
 
-		int large = lieCount + liarCount;
+		int tmpbig = max(lieCount, liarCount);
+		int tmpsmall = min(lieCount, liarCount);
+		int remain = n - tmpbig;
+
+		int large = 0;
+		if(remain < tmpsmall){
+			large = tmpbig - (tmpsmall - remain);
+		}
+		else{
+			large = lieCount + liarCount;
+		}
+
+
+
 		int small = abs(lieCount - liarCount);
 		{
 			if(egg >= small && egg <= large){
@@ -98,6 +111,13 @@ public:
 	}
 };
 
+int main(){
+	ChickenOracle c;
+
+	string r = c.theTruth(1, 1, 1, 1);
+	cout << r << endl;
+	return 0;
+}
 
 
 //Problem: 250

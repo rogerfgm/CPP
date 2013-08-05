@@ -57,6 +57,7 @@ typedef unsigned long long ull;
 #define EPS (1e-11)
 template <class T> T sqr(T val){ return val*val;}
 
+// Segfault okinai
 class NetworkSecurity{
 	vector<vector<int> >G;
 	int* used;
@@ -127,16 +128,18 @@ int main(){
 	vector<string> i1;
 	vector<string> i2;
 
-	i1.push_back("NYNN");
-	i1.push_back("NNNN");
-	i1.push_back("NNNY");
-	i1.push_back("NNNN");
+//	i1.push_back("NYYY");
+//	i1.push_back("NNYY");
+//	i1.push_back("NNNY");
+//	i1.push_back("NNNN");
+//
+//	i2.push_back("YYYYNNNNNNN");
+//	i2.push_back("YYYNYYYNNNN");
+//	i2.push_back("YYNNYYNYYNN");
+//	i2.push_back("YNNNYNNYNYY");
 
-	i2.push_back("YYN");
-	i2.push_back("NNN");
-	i2.push_back("NNY");
-	i2.push_back("NNN");
-
+	i1.push_back("N");
+	i2.push_back("NYYYYYYYY");
 
 	NetworkSecurity n;
 	int ret = n.secureNetwork(i1, i2);
