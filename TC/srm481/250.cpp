@@ -111,13 +111,13 @@ public:
 	}
 };
 
-int main(){
-	ChickenOracle c;
-
-	string r = c.theTruth(1, 1, 1, 1);
-	cout << r << endl;
-	return 0;
-}
+//int main(){
+//	ChickenOracle c;
+//
+//	string r = c.theTruth(1, 1, 1, 1);
+//	cout << r << endl;
+//	return 0;
+//}
 
 
 //Problem: 250
