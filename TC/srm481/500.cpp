@@ -63,7 +63,7 @@ public:
 
 	vector<double> expectedFinishTimes(vector<int> duration, vector<string> user){
 
-		vector<double> ans;
+
 		map<string, long> mp;
 		for(int i = 0; i < user.size(); i++){
 			if(mp.find(user[i]) == mp.end()){
@@ -74,23 +74,46 @@ public:
 
 		vector<long> vec;
 		set<long> set;
-		for(map<string,long>::iterator it; it != mp.end(); it++){
+
+		map<long, int> rmap;
+
+		for(map<string,long>::iterator it = mp.begin(); it != mp.end(); it++){
+			long val = (*it).second;
 			if(set.find((*it).second) == set.end()){
 				vec.push_back((*it).second);
 			}
 			set.insert((*it).second);
+			if(rmap.find((*it).second) == rmap.end()){
+				rmap[(*it).second] = 1;
+			}
+			else{
+				rmap[(*it).second]++;
+			}
 		}
 		sort(vec.begin(), vec.end());
-		long st = 0;
+
+		map<string, double> befm;
+		long add = 0;
+
 		for(int i = 0; i < vec.size(); i++){
 			long sum = vec[i];
-			vector<string> names;
-			for(map<string,long>::iterator it; it != mp.end(); it++){
-				string name = (*it).first;
-				names.push_back(name);
-			}
-			vector<int> tgtidx;
+			int cnt = rmap[sum];
+			double nadd = add + (cnt - 1) * sum  / 2.0;
 
+			for(map<string,long>::iterator it = mp.begin(); it != mp.end(); it++){
+				if((*it).second == sum){
+					befm[(*it).first] = nadd;
+				}
+			}
+			add += sum * cnt;
+		}
+
+		vector<double> ans;
+		for(int i = 0; i < duration.size(); i++){
+			double add = befm[user[i]];
+			double sum = mp[user[i]];
+			double a = add + (sum - duration[i]) / 2 + duration[i];
+			ans.push_back(a);
 		}
 
 		return ans;
@@ -102,6 +125,13 @@ int main(){
 	BatchSystemRoulette c;
 	vector<int> d;
 	vector<string> u;
+
+	int ti[5] = {13, 14, 15, 56, 56};
+	string ts[5] = {"Tim Speedle", "Tim Speedle", "Tim Speedle", "Horatio Caine", "YEEEAAAAAAAAAAH"};
+	for(int i = 0; i < 5; i++){
+		d.push_back(ti[i]);
+		u.push_back(ts[i]);
+	}
 
 	vector<double> r = c.expectedFinishTimes(d, u);
 	for(int i = 0; i < r.size(); i++){

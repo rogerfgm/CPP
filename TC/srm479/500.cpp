@@ -66,7 +66,8 @@ public:
 		T = time;
 		int answ = -1;
 		string s;
-		ll INF = (ll)200000000000000000000;
+		ll INF = 20000000000;
+		INF *= 100000000;
 		for(int i = 0; i < fs.size(); i++){
 			s += fs[i];
 		}

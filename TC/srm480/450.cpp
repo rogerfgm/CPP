@@ -94,10 +94,9 @@ public:
 		}
 
 		int ans = 0;
-
+		used = new int[cn];
+		for(int j = 0; j < cn; j++) used[j] = 0;
 		for(int i = 0; i < sn; i++){
-			used = new int[cn];
-			for(int j = 0; j < cn; j++) used[j] = 0;
 			if(check(i + cn)){
 				ans++;
 			}
@@ -108,7 +107,7 @@ public:
 
 	int check(int idx){
 		int ret = 0;
-		used[idx] = 1;
+		if(idx < cn) used[idx] = 1;
 		vector<int> v = G[idx];
 		for(int i = 0; i < v.size(); i++){
 			int to = v[i];
