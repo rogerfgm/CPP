@@ -89,6 +89,7 @@ public:
 
 int main(){
 
+
 	int iif[5] = { 10, 3, 5, 3, 1 };
 	int rs[5] = { 11, 2, 7, 3, 1 };
 	vector<int> inf;
