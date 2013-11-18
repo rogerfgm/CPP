@@ -57,7 +57,7 @@ typedef unsigned long long ull;
 #define EPS (1e-11)
 template <class T> T sqr(T val){ return val*val;}
 
-
+// Accepted
 class BatchSystemRoulette{
 public:
 

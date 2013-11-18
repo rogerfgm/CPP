@@ -59,66 +59,102 @@ template <class T> T sqr(T val){ return val*val;}
 
 // Segfault okinai
 class NetworkSecurity{
-	vector<vector<int> >G;
+
 	int* used;
 	int cn;
 	int sn;
 	int N;
+
+
 public:
 	int secureNetwork(vector<string> cli, vector<string> srv){
 		cn = cli[0].length();
 		sn = srv[0].length();
-
-		N = cn + sn;
-
-		for(int i = 0; i < N; i++){
-			vector<int> v;
-			G.push_back(v);
+		vector<vector<int> > cf;
+		for(int i = 0; i < cn; i++){
+			vector<int> tmp;
+			for(int j = 0; j < cn; j++){
+				tmp.push_back(0);
+			}
+			cf.push_back(tmp);
 		}
-
-		for(int i = 0; i < cli.size(); i++){
-			string s = cli[i];
-			for(int j = 0; j < s.length(); j++){
-				if(s[j] == 'Y'){
-					G[j].push_back(i);
+		for(int i = 0; i < cn; i++){
+			for(int j = 0; j < cn; j++){
+				if(cli[i][j] == 'Y'){
+					cf[i][j] = 1;
+				}
+				else{
+					cf[i][j] = 0;
 				}
 			}
 		}
+
+		int csf[cn][sn];
 		for(int i = 0; i < srv.size(); i++){
 			string s = srv[i];
-			for(int j = 0; j < s.length(); j++){
+			for(int j = 0; j < sn; j++){
 				if(s[j] == 'Y'){
-					G[cn + j].push_back(i);
+					csf[i][j] = 1;
 				}
+				else csf[i][j] = 0;
 			}
 		}
 
 		int ans = 0;
-		used = new int[cn];
-		for(int j = 0; j < cn; j++) used[j] = 0;
 		for(int i = 0; i < sn; i++){
-			if(check(i + cn)){
-				ans++;
+			set<int> cset;
+			for(int j = 0; j < cn; j++){
+				if(csf[j][i]){
+					cset.insert(j);
+				}
 			}
+			set<int> cantset;
+			while(true){
+				int flag = 0;
+				set<int>::iterator ite = cset.begin();
+				while(ite != cset.end()){
+					int target = *ite;
+					if(cantset.find(target) != cantset.end()){
+						ite++;
+						continue;
+					}
+					set<int> vis;
+					if(dfs(target, vis, cset, cf)){
+						cset.erase(ite);
+						flag = 1;
+						break;
+					}
+					else{
+						cantset.insert(target);
+					}
+					ite++;
+				}
+				if(!flag){
+					break;
+				}
+			}
+			ans += cset.size();
 		}
+
 
 		return ans;
 	}
 
-	int check(int idx){
-		int ret = 0;
-		if(idx < cn) used[idx] = 1;
-		vector<int> v = G[idx];
-		for(int i = 0; i < v.size(); i++){
-			int to = v[i];
-			if(used[to]) continue;
-			ret = 1;
-			check(to);
+	int dfs(int p, set<int> vis, set<int> cset, vector<vector<int> > cf){
+
+		vis.insert(p);
+		for(int i = 0; i < cn; i++){
+			if(i != p && vis.find(i) == vis.end() && cf[p][i]){
+				if(cset.find(i) != cset.end()){
+					return 1;
+				}
+				dfs(i, vis,cset, cf);
+			}
 		}
-
-
-		return ret;
+		return 0;
 	}
+
+
 
 };
 
@@ -127,18 +163,12 @@ int main(){
 	vector<string> i1;
 	vector<string> i2;
 
-//	i1.push_back("NYYY");
-//	i1.push_back("NNYY");
-//	i1.push_back("NNNY");
-//	i1.push_back("NNNN");
-//
-//	i2.push_back("YYYYNNNNNNN");
-//	i2.push_back("YYYNYYYNNNN");
-//	i2.push_back("YYNNYYNYYNN");
-//	i2.push_back("YNNNYNNYNYY");
-
-	i1.push_back("N");
-	i2.push_back("NYYYYYYYY");
+	i1.push_back("NYN");
+	i1.push_back("NNN");
+	i1.push_back("NYN");
+	i2.push_back("YN");
+	i2.push_back("YN");
+	i2.push_back("NY");
 
 	NetworkSecurity n;
 	int ret = n.secureNetwork(i1, i2);
@@ -147,31 +177,20 @@ int main(){
 }
 
 
-//Problem: 450
-//Test Case: 5
-//Succeeded: No
-//Execution Time: 0 ms
-//Args:
-//{{"NYYY", "NNYY", "NNNY", "NNNN"}, {"YYYYNNNNNNN", "YYYNYYYNNNN", "YYNNYYNYYNN", "YNNNYNNYNYY"}}
-//
-//Expected:
-//11
-//
-//Received:
-//uncaught exception
-//
-//
-//
-//Problem: 450
-//Test Case: 9
-//Succeeded: No
-//Execution Time: 0 ms
-//Args:
-//{{"N"}, {"NYYYYYYYY"}}
-//
-//Expected:
-//8
-//
-//Received:
-//segmentation fault
+/*
+ *
+ *
+Problem: 450
+Test Case: 29
+Succeeded: No
+Execution Time: 0 ms
+Args:
+{{"NNNNYNNYN", "YNNNYNNYN", "YNNYNNNYY", "NNNNNNNNN", "NNNNNNNNN", "NYNNYNNNN", "NYYYYYNNN", "NNNYNNNNN", "YNNNNNNYN"}, {"NNYN", "NNNY", "YYYN", "NYYY", "YYYY", "NYNY", "YYYY", "YYYN", "YYYY"}}
+
+Expected:
+8
+
+Received:
+11
+ */
 
